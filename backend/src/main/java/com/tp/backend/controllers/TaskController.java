@@ -28,6 +28,16 @@ public class TaskController {
         this.taskRepository = taskRepository;
     }
 
+    @GetMapping
+    public List<Task> getAll() {
+        return taskRepository.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Task> getById(@PathVariable Long id) {
+        Optional<Task> task = taskRepository.findById(id);
+        return task.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
 
     @PostMapping
     public ResponseEntity<Task> create(@Valid @RequestBody Task input) {
@@ -35,6 +45,5 @@ public class TaskController {
         Task saved = taskRepository.save(input);
         return ResponseEntity.ok(saved);
     }
-
 
 }
