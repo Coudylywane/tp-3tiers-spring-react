@@ -59,4 +59,12 @@ public class TaskController {
             .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        if (!taskRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        taskRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }
